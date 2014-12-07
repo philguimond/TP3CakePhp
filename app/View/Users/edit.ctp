@@ -6,6 +6,22 @@
 		<div class="actions">
 		
 			<ul class="nav nav-pills nav-stacked">
+			<?php if ($this->Session->check('Auth.User')){ 
+				if($this->Session->read('Auth.User.active') == 0){ ?>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Confirm your email!
+						<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							 <li class="list-group-item"><?php echo $this->Html->link(__('Send a new confirmation'),
+										array('controller' => 'users', 'action' => 'confirmation')); ?>
+							 </li>    
+								 <li class="list-group-item"><?php echo $this->Html->link(__('Restriction'),
+										array('controller' => 'users', 'action' => 'restriction')); ?>
+							 </li>  
+						</ul>
+						</li>
+			<?php }} ?>
 				<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Products 
 				<span class="caret"></span>
@@ -77,7 +93,9 @@
 					<div class="form-group">
 						<?php echo $this->Form->input('role', array('class' => 'form-control')); ?>
 					</div><!-- .form-group -->
-
+					<div class="form-group">
+						<?php echo $this->Form->input('email', array('class' => 'form-control')); ?>
+					</div><!-- .form-group -->
 					<?php echo $this->Form->submit('Submit', array('class' => 'btn btn-large btn-primary')); ?>
 
 				</fieldset>

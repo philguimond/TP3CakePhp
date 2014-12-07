@@ -1,4 +1,7 @@
-
+<script type="text/javascript"> var couleur = '<?php echo $this->html->url('/'); ?>'; </script>
+<?php
+	echo $this->Html->script('View/Products/add', array('inline' => false));
+?>
 <div id="page-container" class="row">
 
 	<div id="sidebar" class="col-sm-3">
@@ -6,7 +9,24 @@
 		<div class="actions">
 		
 			<ul class="nav nav-pills nav-stacked">
-				<li class="dropdown">
+		
+<?php if ($this->Session->check('Auth.User')){ 
+				if($this->Session->read('Auth.User.active') == 0){ ?>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Confirm your email!
+						<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							 <li class="list-group-item"><?php echo $this->Html->link(__('Send a new confirmation'),
+										array('controller' => 'users', 'action' => 'confirmation')); ?>
+							 </li>    
+								 <li class="list-group-item"><?php echo $this->Html->link(__('Restriction'),
+										array('controller' => 'users', 'action' => 'restriction')); ?>
+							 </li>  
+						</ul>
+						</li>
+			<?php }} ?>
+		<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Products 
 				<span class="caret"></span>
 				</a>
@@ -65,7 +85,7 @@
 
 		<div class="products form">
 		
-			<?php echo $this->Form->create('Product', array('role' => 'form')); ?>
+			<?php echo $this->Form->create('Product', array('type' => 'file','role' => 'form')); ?>
 
 				<fieldset>
 
@@ -78,6 +98,18 @@
 					<div class="form-group">
 						<?php echo $this->Form->input('price', array('class' => 'form-control')); ?>
 					</div><!-- .form-group -->
+					<div class="form-group" id="couleurId">
+                    <?php echo $this->Form->input('color', array('rows' => '1','class' => 'ui-autocomplete', 'id' => 'autocomplete')); ?>
+                </div><!-- .form-group -->
+                <div class="form-group">
+                    <?php
+                    echo $this->Form->input('category_id');
+                    echo $this->Form->input('subcategory_id');
+                    ?>
+                </div>
+					<div class="form-group">
+						<?php echo $this->Form->input('image_file', array('label' => 'Votre image(au format JPG, JPEG, PNG, GIF) moins de 1Mo', 'type' => 'file')); ?>
+					</div>
 					<div class="form-group">
 						<?php echo $this->Form->input('email', array('class' => 'form-control')); ?>
 					</div><!-- .form-group -->
@@ -96,3 +128,27 @@
 	</div><!-- /#page-content .col-sm-9 -->
 
 </div><!-- /#page-container .row-fluid -->
+
+<?php
+$this->Js->get('#ProductCategoryId')->event('click', $this->Js->request(array(
+            'controller' => 'subcategories',
+            'action' => 'getByCategory'
+                ), array(
+            'update' => '#ProductSubcategoryId',
+            'async' => true,
+            'method' => 'post',
+            'dataExpression' => true,
+            'data' => $this->Js->serializeForm(array(
+                'isForm' => true,
+                'inline' => true
+            ))
+        ))
+);
+?>
+<script>
+    $( "#autocomplete" ).position({
+my: "left+15",
+at: "left+35",
+of: "#couleurId"
+});
+</script>

@@ -3,9 +3,25 @@
 	<div id="sidebar" class="col-sm-3">
 		
 		<div class="actions">
+		<ul class="nav nav-pills nav-stacked">
+		
+			<?php if ($this->Session->check('Auth.User')){ 
+				if($this->Session->read('Auth.User.active') == 0){ ?>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Confirm your email!
+						<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							 <li class="list-group-item"><?php echo $this->Html->link(__('Send a new confirmation'),
+										array('controller' => 'users', 'action' => 'confirmation')); ?>
+							 </li>    
+								 <li class="list-group-item"><?php echo $this->Html->link(__('Restriction'),
+										array('controller' => 'users', 'action' => 'restriction')); ?>
+							 </li>  
+						</ul>
+						</li>
+			<?php }} ?>
 			
-			
-			<ul class="nav nav-pills nav-stacked">
 				<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Products 
 				<span class="caret"></span>
@@ -71,7 +87,10 @@
 							<th><?php echo $this->Paginator->sort('description'); ?></th>
 							<th><?php echo $this->Paginator->sort('price'); ?></th>
 							<th><?php echo $this->Paginator->sort('Sale #'); ?></th>
+							<th><?php echo $this->Paginator->sort('Color'); ?></th>
+							<th><?php echo $this->Paginator->sort('Rating'); ?></th>
 							<th><?php echo $this->Paginator->sort('email'); ?></th>
+							<th><?php echo $this->Paginator->sort('Picture'); ?></th>
 							<th><?php echo $this->Paginator->sort('user_id'); ?></th>
 							<th class="actions"><?php echo __('Actions'); ?></th>
 						</tr>
@@ -90,9 +109,13 @@
 		endforeach
 		?>&nbsp;</td>
 		</td>
-		
-		
-		<td><?php echo h($product['Product']['email']); ?>&nbsp;</td>
+			<td><?php echo h($product['Product']['color']); ?>&nbsp;</td>
+			
+			<td><?php echo h($product['Subcategory']['rating']); ?>&nbsp;</td>
+			
+			<td><?php echo h($product['Product']['email']); ?>&nbsp;</td>
+			
+			<td><?php echo $this->Html->image('imgProduit/' . $product['Product']['id'] . '.' . $product['Product']['image'], array('width'=>80,'height'=>'80','alt'=>'Open')); ?></td>
 		<td>
 			<?php echo $this->Html->link($product['User']['username'], array('controller' => 'users', 'action' => 'view', $product['User']['id'])); ?>
 		</td>

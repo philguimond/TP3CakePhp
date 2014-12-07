@@ -33,6 +33,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
+                echo $this->Html->script('jquery.js');
+                echo $this->Html->script('navigation.js');
 	?>
 </head>
 <body>

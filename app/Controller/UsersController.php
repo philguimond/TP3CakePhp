@@ -71,14 +71,61 @@ class UsersController extends AppController {
         if ($this->request->is('post')) {
             $this->User->create();
             if ($this->User->save($this->request->data)) {
-                $this->Session->setFlash(__('The user has been saved'), 'flash/success');
-                $this->redirect(array('action' => 'index'));
+				$toUser = $this->request->data;
+				$link = array('controller' => 'users', 'action' => 'activate', $this->User->id . '-' . $this->User->username);
+				$this->send_mail($toUser['User']['email'], $toUser['User']['username'], $toUser['User']['password'], $link);
+                //$this->Session->setFlash(__('The user has been saved'), 'flash/success');
+                $this->redirect(array('controller' => 'products','action' => 'index'));
             } else {
                 $this->Session->setFlash(__('The user could not be saved. Please, try again.'), 'flash/error');
             }
         }
     }
+	
+	public function restriction(){
+	}
+	
+	public function confirmation(){
+		if ($this->Session->check('Auth.User')){
+			$link = array('controller' => 'users', 'action' => 'activate', $this->Session->read('Auth.User.id') . '-' . $this->Session->read('Auth.User.username'));
+			$this->send_mail($this->Session->read('Auth.User.email'), $this->Session->read('Auth.User.username'), $this->Session->read('Auth.User.password'), $link);
+			$this->redirect('/');
+		}
+	}
 
+	  public function send_mail($receiver = null, $name = null, $pass = null, $link = null) {
+			App::uses('CakeEmail', 'Network/Email');
+			$email = new CakeEmail('gmail');
+			$email->from('philippephptp3@gmail.com');
+			$email->to($receiver);
+			$email->emailFormat('html');
+			$email->subject('Mail Confirmation');
+			$email->template('signup');
+			$email->viewVars(array('username' => $name, 'link' => $link));
+			$email->send();
+    }
+
+	
+	public function activate($token){
+		$token = explode('-', $token);
+		$userlist = $this->User->find('all');
+		$user = $this->User->find('first',array('conditions' => array('id' => $token[0], 'active' => 0)));
+
+		if(!empty($user)){
+				$this->User->id = $user['User']['id'];
+				$this->User->saveField('active', 1);
+				//Changer le active
+					$this->Session->write('Auth.User.active', 1);
+				
+				$this->Auth->login($user['User']);
+				$this->Auth->logout($user['User']);
+			$this->Session->setFlash(__('Your account has been saved, you can now log in with full access'), 'flash/success');
+		} else {
+			$this->Session->setFlash(__('This activation link is not valid'), 'flash/error');
+		}
+		$this->redirect('/');
+	}
+	
     /**
      * edit method
      *
@@ -219,4 +266,6 @@ class UsersController extends AppController {
         $this->redirect(array('action' => 'index'));
     }
 
+	  
+	
 }

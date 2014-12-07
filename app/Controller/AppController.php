@@ -33,7 +33,7 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
     public $helpers = array('I18n.I18n');
     public $theme = "Cakestrap";
-
+    
     
     public $components = array(
         'DebugKit.Toolbar',
@@ -57,7 +57,12 @@ class AppController extends Controller {
     );
     
     public function beforeFilter() {
-        $this->Auth->allow('index', 'view');
+			$this->Auth->allow('index', 'view', 'get_Color_Names' , 'getbycategory', 'activate', 'confirmation', 'restriction');
+			if ($this->request->is('Ajax')) {
+			   $this->layout = false;
+			}
+			parent::beforeFilter();
+ 
     }
 
     public function isAuthorized($user) {

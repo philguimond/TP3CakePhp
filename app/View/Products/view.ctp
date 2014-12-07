@@ -86,6 +86,23 @@
 			<?php echo h($product['Product']['price']); ?>
 			&nbsp;
 		</td>
+</tr>
+<tr>		<td><strong><?php echo __('Picture'); ?></strong></td>
+		<td>
+			<?php echo $this->Html->image('imgProduit/' . $product['Product']['id'] . '.' . $product['Product']['image'], array('width'=>80,'height'=>'80','alt'=>'Open')); ?>
+			&nbsp;
+		</td>
+</tr>
+<tr>		<td><strong><?php echo __('Color'); ?></strong></td>
+		<td>
+			<?php echo h($product['Product']['color']); ?>
+			&nbsp;
+		</td>
+</tr><tr>		<td><strong><?php echo __('Rating'); ?></strong></td>
+		<td>
+			<?php echo h($product['Subcategory']['rating']); ?>
+			&nbsp;
+		</td>
 </tr><tr>		<td><strong><?php echo __('Email'); ?></strong></td>
 		<td>
 			<?php echo h($product['Product']['email']); ?>

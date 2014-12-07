@@ -6,6 +6,22 @@
 		<div class="actions">
 		
 						<ul class="nav nav-pills nav-stacked">
+						<?php if ($this->Session->check('Auth.User')){ 
+				if($this->Session->read('Auth.User.active') == 0){ ?>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Confirm your email!
+						<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							 <li class="list-group-item"><?php echo $this->Html->link(__('Send a new confirmation'),
+										array('controller' => 'users', 'action' => 'confirmation')); ?>
+							 </li>    
+								 <li class="list-group-item"><?php echo $this->Html->link(__('Restriction'),
+										array('controller' => 'users', 'action' => 'restriction')); ?>
+							 </li>  
+						</ul>
+						</li>
+			<?php }} ?>
 				<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Products 
 				<span class="caret"></span>
@@ -69,6 +85,7 @@
 						<tr>
 							<th><?php echo $this->Paginator->sort('username'); ?></th>
 							<th><?php echo $this->Paginator->sort('role'); ?></th>
+							<th><?php echo $this->Paginator->sort('email'); ?></th>
 							<th class="actions"><?php echo __('Actions'); ?></th>
 						</tr>
 					</thead>
@@ -77,6 +94,7 @@
 	<tr>
 		<td><?php echo h($user['User']['username']); ?>&nbsp;</td>
 		<td><?php echo h($user['User']['role']); ?>&nbsp;</td>
+		<td><?php echo h($user['User']['email']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $user['User']['id']), array('class' => 'btn btn-default btn-xs')); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $user['User']['id']), array('class' => 'btn btn-default btn-xs')); ?>

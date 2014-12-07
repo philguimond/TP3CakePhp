@@ -1,0 +1,4 @@
+<?php
+
+
+debug($colorNames); die;

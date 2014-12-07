@@ -21,7 +21,8 @@
 								  echo '<li>' . $this->Html->Link('Customers',array('controller' => 'customers', 'action' => 'index')) . '</li>';
 								  echo '<li>' . $this->Html->Link('Sales',array('controller' => 'sales', 'action' => 'index')) . '</li>';
 								?>
-                   
+								
+								
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo __('Language') ?> <b class="caret"></b></a>
 				<ul class="dropdown-menu">
