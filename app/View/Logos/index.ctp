@@ -73,7 +73,7 @@
 		
 	</div><!-- /#sidebar .col-sm-3 -->
 	<div id="page-content" class="col-sm-9">
-				<?php include('../logo.svg'); ?>
+				<?php echo $this->Html->tag('object', 'test', array('type' => 'image/svg+xml', 'data' => $this->webroot . 'img/logo.svg')); ?>
 				</br>
 				<h1>Information </h1>
 				</br>
